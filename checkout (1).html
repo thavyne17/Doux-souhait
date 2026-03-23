@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Finalizar Compra — Doux Souhait">
+    <title>Finalizar Compra — Doux Souhait</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:      #c97b84;
+            --rose-dk:   #9e5560;
+            --cream:     #fdf6f0;
+            --parchment: #f5ebe2;
+            --text:      #3a2a2a;
+            --text-soft: #7a5f5f;
+            --gold:      #c4a882;
+            --gold-lt:   #e8d8c4;
+            --dark:      #1c1010;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ── NAVBAR ──────────────────────────────────────────── */
+        .navbar {
+            background: rgba(28,16,16,.96);
+            border-bottom: 1px solid rgba(196,168,130,.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 58px;
+        }
+        .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: 1.3rem;
+            color: #f5ebe2; text-decoration: none;
+        }
+        .navbar-brand em { font-style: italic; color: var(--rose); }
+        .navbar-back {
+            display: inline-flex; align-items: center; gap: .55rem;
+            font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+            color: rgba(245,235,226,.5); text-decoration: none;
+            transition: color .25s;
+        }
+        .navbar-back:hover { color: var(--gold-lt); }
+        .navbar-back svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── HEADER ─────────────────────────────────────────── */
+        header {
+            position: relative;
+            min-height: 28vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 3.5rem 2rem 2.5rem;
+            background-color: var(--dark);
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,123,132,.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        header::after {
+            content: '';
+            position: absolute; inset: 1.2rem;
+            border: 1px solid rgba(196,168,130,.15);
+            pointer-events: none;
+        }
+        .brand-tag {
+            font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+            color: var(--gold); opacity: .7; margin-bottom: 1rem;
+            animation: fadeUp .7s ease both;
+        }
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: clamp(2rem, 6vw, 3.8rem);
+            line-height: 1.05; color: #f5ebe2;
+            animation: fadeUp .8s .1s ease both;
+        }
+        header h1 em { font-style: italic; color: var(--rose); }
+        .header-ornament {
+            margin-top: 1.4rem;
+            display: flex; align-items: center; gap: 1rem;
+            color: var(--gold); opacity: .4;
+            animation: fadeUp .8s .2s ease both;
+        }
+        .header-ornament::before, .header-ornament::after { content: ''; width: 40px; height: 1px; background: var(--gold); }
+
+        /* ── LAYOUT ──────────────────────────────────────────── */
+        .layout {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 3.5rem 2rem 5rem;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* ── PANEL ───────────────────────────────────────────── */
+        .panel {
+            background: #fff;
+            border: 1px solid var(--gold-lt);
+            padding: 2rem 2rem 2.2rem;
+            margin-bottom: 1.6rem;
+        }
+        .panel:last-child { margin-bottom: 0; }
+
+        .panel-title {
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gold-lt);
+        }
+        .panel-title .num {
+            width: 26px; height: 26px;
+            border: 1px solid var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem; color: var(--gold);
+            flex-shrink: 0;
+        }
+        .panel-title h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400; font-size: 1.35rem;
+            color: var(--text);
+        }
+
+        /* ── FORM ────────────────────────────────────────────── */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-group { margin-bottom: 1.1rem; }
+        .form-group:last-child { margin-bottom: 0; }
+
+        .form-group label {
+            display: block;
+            font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+            color: var(--text-soft); margin-bottom: .45rem; font-weight: 400;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: .7rem .9rem;
+            background: var(--cream);
+            border: 1px solid var(--gold-lt);
+            color: var(--text);
+            font-family: 'Jost', sans-serif;
+            font-size: .88rem; font-weight: 300;
+            border-radius: 2px; outline: none;
+            transition: border-color .3s, background .3s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--rose);
+            background: #fff;
+        }
+        .form-group input::placeholder { color: rgba(122,95,95,.35); }
+
+        /* select arrow */
+        .select-wrap { position: relative; }
+        .select-wrap::after {
+            content: '';
+            position: absolute; right: .9rem; top: 50%;
+            transform: translateY(-50%);
+            width: 0; height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid var(--gold);
+            pointer-events: none;
+        }
+
+        /* cep row */
+        .cep-row { display: flex; gap: .8rem; align-items: flex-end; }
+        .cep-row .form-group { flex: 1; margin-bottom: 0; }
+        .btn-cep {
+            flex-shrink: 0;
+            display: inline-flex; align-items: center; gap: .5rem;
+            font-family: 'Jost', sans-serif;
+            font-size: .68rem; font-weight: 300;
+            letter-spacing: .2em; text-transform: uppercase;
+            color: var(--rose-dk); background: none;
+            border: 1px solid var(--rose);
+            padding: .7rem 1rem; border-radius: 2px; cursor: pointer;
+            white-space: nowrap;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-cep:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+        .btn-cep:disabled { opacity: .5; cursor: not-allowed; }
+
+        /* shipping options */
+        .shipping-options { display: flex; flex-direction: column; gap: .7rem; margin-top: .5rem; }
+        .shipping-opt {
+            display: flex; align-items: center; gap: .9rem;
+            padding: .85rem 1rem;
+            border: 1px solid var(--gold-lt);
+            background: var(--cream);
+            cursor: pointer;
+            transition: border-color .3s, background .3s;
+            position: relative;
+        }
+        .shipping-opt:has(input:checked) {
+            border-color: var(--rose);
+            background: #fff;
+        }
+        .shipping-opt input[type="radio"] {
+            appearance: none; -webkit-appearance: none;
+            width: 15px; height: 15px; border-radius: 50%;
+            border: 1px solid var(--gold);
+            flex-shrink: 0; cursor: pointer;
+            position: relative; transition: border-color .3s;
+        }
+        .shipping-opt input[type="radio"]:checked {
+            border-color: var(--rose-dk);
+            background: var(--rose-dk);
+            box-shadow: inset 0 0 0 3px var(--cream);
+        }
+        .shipping-opt input[type="radio"]:disabled { opacity: .4; cursor: not-allowed; }
+        .shipping-opt-label { flex: 1; }
+        .shipping-opt-label .opt-name {
+            font-size: .82rem; color: var(--text); display: block;
+        }
+        .shipping-opt-label .opt-desc {
+            font-size: .7rem; color: var(--text-soft); opacity: .7;
+        }
+        .shipping-opt-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem; color: var(--rose-dk);
+        }
+        .shipping-opt:has(input:disabled) { opacity: .5; cursor: not-allowed; }
+
+        /* feedback */
+        .feedback {
+            font-size: .78rem; color: var(--rose-dk);
+            margin-top: .5rem; display: none;
+        }
+        .feedback.active { display: block; }
+        .feedback.success { color: var(--text-soft); }
+
+        /* loader spinner */
+        .spinner {
+            display: none; width: 18px; height: 18px;
+            border: 2px solid var(--gold-lt);
+            border-top-color: var(--rose);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            flex-shrink: 0;
+        }
+        .spinner.show { display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── SIDEBAR ─────────────────────────────────────────── */
+        .sidebar { position: sticky; top: 1.5rem; }
+
+        .summary-panel {
+            background: var(--dark);
+            border: 1px solid rgba(196,168,130,.18);
+            padding: 2rem;
+            color: var(--gold-lt);
+        }
+        .summary-panel .s-label {
+            font-size: .62rem; letter-spacing: .32em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.2rem; display: block; opacity: .75;
+        }
+        .summary-lines { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.4rem; }
+        .summary-line {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-size: .82rem; color: rgba(245,235,226,.5);
+        }
+        .summary-line .s-val { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold-lt); }
+        .summary-divider { height: 1px; background: rgba(196,168,130,.15); margin: .8rem 0 1.2rem; }
+        .summary-total {
+            display: flex; justify-content: space-between; align-items: baseline;
+        }
+        .summary-total .t-label {
+            font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--gold); opacity: .7;
+        }
+        .summary-total .t-val {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem; color: #f5ebe2;
+        }
+
+        /* cart items list */
+        .cart-items {
+            margin-bottom: 1.4rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(196,168,130,.12);
+        }
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: .5rem 0;
+            border-bottom: 1px solid rgba(196,168,130,.07);
+            font-size: .8rem;
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item .ci-name { color: rgba(245,235,226,.6); }
+        .cart-item .ci-price { font-family: 'Cormorant Garamond', serif; font-size: .95rem; color: var(--gold); }
+
+        /* confirm button */
+        .btn-confirm {
+            display: flex; align-items: center; justify-content: center; gap: .6rem;
+            width: 100%; margin-top: 1.6rem;
+            padding: .85rem;
+            background: transparent; border: 1px solid var(--rose);
+            color: var(--rose);
+            font-family: 'Jost', sans-serif;
+            font-size: .7rem; font-weight: 300;
+            letter-spacing: .25em; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-confirm:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+        .btn-confirm svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; }
+        .btn-confirm:hover svg { transform: translateX(3px); }
+
+        /* ── MODAL ───────────────────────────────────────────── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(28,16,16,.7);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            align-items: center; justify-content: center;
+            padding: 1.5rem;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--cream); max-width: 420px; width: 100%;
+            border: 1px solid var(--gold-lt);
+            padding: 2.5rem 2rem 2rem;
+            position: relative; text-align: center;
+            animation: fadeUp .3s ease;
+        }
+        .modal .m-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .modal h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400; font-size: 1.8rem;
+            color: var(--text); margin-bottom: .6rem;
+        }
+        .modal p { font-size: .88rem; color: var(--text-soft); line-height: 1.8; margin-bottom: 1.6rem; }
+        .btn-modal-ok {
+            display: inline-flex; align-items: center; gap: .5rem;
+            font-family: 'Jost', sans-serif; font-size: .7rem;
+            letter-spacing: .22em; text-transform: uppercase;
+            color: var(--rose-dk); background: none;
+            border: 1px solid var(--rose); padding: .65rem 1.5rem;
+            border-radius: 2px; cursor: pointer;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-modal-ok:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+
+        /* ── FOOTER ──────────────────────────────────────────── */
+        footer {
+            background: var(--dark); padding: 1.4rem 2rem;
+            text-align: center; font-size: .68rem;
+            letter-spacing: .12em; color: rgba(196,168,130,.3);
+            text-transform: uppercase;
+        }
+
+        /* ── ANIMATIONS ──────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────────── */
+        @media (max-width: 820px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .layout { padding: 2.5rem 1.2rem 4rem; }
+            .panel { padding: 1.4rem 1.2rem 1.6rem; }
+            header::after { inset: .8rem; }
+            .cep-row { flex-direction: column; }
+            .btn-cep { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────── -->
+<nav class="navbar">
+    <a href="index.html" class="navbar-brand">Doux <em>Souhait</em></a>
+    <a href="carrinho (1).html" class="navbar-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar ao carrinho
+    </a>
+</nav>
+
+<!-- ── HEADER ──────────────────────────────────── -->
+<header>
+    <p class="brand-tag">Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal</p>
+    <h1>Finalizar <em>Compra</em></h1>
+    <div class="header-ornament"><span>✦</span></div>
+</header>
+
+<!-- ── LAYOUT ──────────────────────────────────── -->
+<div class="layout">
+
+    <!-- ── LEFT COLUMN ─────────────────────────── -->
+    <div class="left-col">
+
+        <!-- Endereço -->
+        <div class="panel">
+            <div class="panel-title">
+                <div class="num">1</div>
+                <h2>Endereço de Entrega</h2>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="grid-column:1/-1">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" placeholder="Digite seu nome completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">Cidade</label>
+                    <input type="text" id="city" placeholder="Sua cidade" required>
+                </div>
+                <div class="form-group" style="grid-column:1/-1">
+                    <label for="address">Endereço</label>
+                    <input type="text" id="address" placeholder="Rua, número e complemento" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frete -->
+        <div class="panel">
+            <div class="panel-title">
+                <div class="num">2</div>
+                <h2>Calcular Frete</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="cep">CEP</label>
+                <div class="cep-row">
+                    <div class="form-group">
+                        <input type="text" id="cep" placeholder="00000-000" maxlength="9" required>
+                    </div>
+                    <button class="btn-cep" id="calculate-shipping">
+                        <span class="spinner" id="cep-spinner"></span>
+                        Calcular
+                    </button>
+                </div>
+                <p id="shipping-info" class="feedback"></p>
+            </div>
+
+            <div class="form-group">
+                <label>Opções de Frete</label>
+                <div class="shipping-options">
+                    <label class="shipping-opt">
+                        <input type="radio" id="standard" name="shipping-option" value="standard" checked>
+                        <div class="shipping-opt-label">
+                            <span class="opt-name">Frete Padrão</span>
+                            <span class="opt-desc">5–8 dias úteis</span>
+                        </div>
+                        <span class="shipping-opt-price">R$ 15,00</span>
+                    </label>
+                    <label class="shipping-opt">
+                        <input type="radio" id="express" name="shipping-option" value="express">
+                        <div class="shipping-opt-label">
+                            <span class="opt-name">Frete Expresso</span>
+                            <span class="opt-desc">1–2 dias úteis</span>
+                        </div>
+                        <span class="shipping-opt-price">R$ 30,00</span>
+                    </label>
+                    <label class="shipping-opt">
+                        <input type="radio" id="free" name="shipping-option" value="free" disabled>
+                        <div class="shipping-opt-label">
+                            <span class="opt-name">Frete Grátis</span>
+                            <span class="opt-desc">Para compras acima de R$ 150,00</span>
+                        </div>
+                        <span class="shipping-opt-price">R$ 0,00</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagamento -->
+        <div class="panel">
+            <div class="panel-title">
+                <div class="num">3</div>
+                <h2>Método de Pagamento</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="payment-method">Forma de Pagamento</label>
+                <div class="select-wrap">
+                    <select id="payment-method" required>
+                        <option value="">Selecione um método</option>
+                        <option value="credit">Cartão de Crédito</option>
+                        <option value="boleto">Boleto Bancário</option>
+                        <option value="pix">PIX</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── SIDEBAR ──────────────────────────────── -->
+    <div class="sidebar">
+        <div class="summary-panel">
+            <span class="s-label">Resumo do Pedido</span>
+
+            <div class="cart-items" id="cart-items-list">
+                <!-- preenchido via JS -->
+            </div>
+
+            <div class="summary-lines">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span class="s-val" id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Frete</span>
+                    <span class="s-val" id="shipping-cost">R$ 0,00</span>
+                </div>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-total">
+                <span class="t-label">Total</span>
+                <span class="t-val" id="total-price">R$ 0,00</span>
+            </div>
+
+            <button class="btn-confirm" id="confirm-order">
+                Confirmar Pedido
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer>
+    &copy; 2024 Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal
+</footer>
+
+<!-- ── MODAL ─────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+        <div class="m-icon">✦</div>
+        <h3 id="modal-title">Pedido Confirmado!</h3>
+        <p id="modal-msg">Obrigado pela sua compra. Em breve entraremos em contato com os detalhes da entrega.</p>
+        <button class="btn-modal-ok" id="modal-ok">Voltar ao início</button>
+    </div>
+</div>
+
+<script>
+    const getCart = () => JSON.parse(localStorage.getItem('cart')) || [];
+    const fmt = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+
+    let shippingCost = 15;
+    const shippingOptions = { standard: 15, express: 30, free: 0 };
+
+    /* ── Subtotal / Total ── */
+    const calcSubtotal = () => getCart().reduce((t, i) => t + (i.price || 0), 0);
+    const calcTotal    = () => calcSubtotal() + shippingCost;
+
+    const updatePrices = () => {
+        document.getElementById('subtotal').textContent      = fmt(calcSubtotal());
+        document.getElementById('shipping-cost').textContent = fmt(shippingCost);
+        document.getElementById('total-price').textContent   = fmt(calcTotal());
+    };
+
+    /* ── Render cart items ── */
+    const renderCart = () => {
+        const list = document.getElementById('cart-items-list');
+        const cart = getCart();
+        if (!cart.length) {
+            list.innerHTML = '<p style="font-size:.78rem;color:rgba(245,235,226,.35);padding:.5rem 0;">Nenhum item no carrinho.</p>';
+            return;
+        }
+        list.innerHTML = cart.map(i => `
+            <div class="cart-item">
+                <span class="ci-name">${i.name}</span>
+                <span class="ci-price">${fmt(i.price || 0)}</span>
+            </div>
+        `).join('');
+    };
+
+    /* ── CEP mask ── */
+    document.getElementById('cep').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5,8);
+        e.target.value = v;
+    });
+
+    /* ── CPF mask ── */
+    document.getElementById('cpf').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 9) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9,11);
+        else if (v.length > 6) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+        else if (v.length > 3) v = v.slice(0,3)+'.'+v.slice(3);
+        e.target.value = v;
+    });
+
+    /* ── Calculate shipping ── */
+    const calculateShipping = async () => {
+        const cep = document.getElementById('cep').value.replace(/\D/g, '');
+        const info = document.getElementById('shipping-info');
+        const btn  = document.getElementById('calculate-shipping');
+        const spin = document.getElementById('cep-spinner');
+
+        if (!cep || cep.length < 8) {
+            info.textContent = 'Por favor, insira um CEP válido.';
+            info.className = 'feedback active';
+            return;
+        }
+
+        btn.disabled = true;
+        spin.classList.add('show');
+        info.className = 'feedback';
+
+        try {
+            const res  = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            if (!res.ok) throw new Error('CEP inválido.');
+            const data = await res.json();
+            if (data.erro) throw new Error('CEP não encontrado.');
+
+            const subtotal = calcSubtotal();
+            const freeEl = document.getElementById('free');
+
+            if (subtotal >= 150) {
+                freeEl.disabled = false;
+                freeEl.checked  = true;
+                shippingCost = 0;
+            } else {
+                freeEl.disabled = true;
+                shippingCost = shippingOptions[document.querySelector('input[name="shipping-option"]:checked').value] || 15;
+            }
+
+            info.textContent = `✦  ${data.logradouro ? data.logradouro + ', ' : ''}${data.localidade} — ${data.uf}`;
+            info.className = 'feedback active success';
+            updatePrices();
+        } catch (err) {
+            info.textContent = err.message;
+            info.className = 'feedback active';
+        } finally {
+            btn.disabled = false;
+            spin.classList.remove('show');
+        }
+    };
+
+    /* ── Confirm order ── */
+    const confirmOrder = async () => {
+        const name    = document.getElementById('name').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const cpf     = document.getElementById('cpf').value.trim();
+        const method  = document.getElementById('payment-method').value;
+
+        if (!name || !address || !cpf) {
+            alert('Por favor, preencha todos os campos de endereço.');
+            return;
+        }
+        if (!method) {
+            alert('Por favor, selecione um método de pagamento.');
+            return;
+        }
+
+        const btn = document.getElementById('confirm-order');
+        btn.disabled = true;
+        btn.textContent = 'Processando...';
+
+        try {
+            await fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paymentMethod: method, amount: calcTotal(), timestamp: new Date() }),
+            });
+
+            localStorage.removeItem('cart');
+            document.getElementById('modal-overlay').classList.add('open');
+        } catch {
+            alert('Erro ao processar o pedido. Tente novamente.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Confirmar Pedido <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        }
+    };
+
+    document.getElementById('modal-ok').onclick = () => window.location.href = 'index.html';
+
+    /* ── Shipping option change ── */
+    document.querySelectorAll('input[name="shipping-option"]').forEach(r =>
+        r.addEventListener('change', e => {
+            shippingCost = shippingOptions[e.target.value];
+            updatePrices();
+        })
+    );
+
+    document.getElementById('calculate-shipping').addEventListener('click', calculateShipping);
+    document.getElementById('confirm-order').addEventListener('click', confirmOrder);
+
+    window.addEventListener('DOMContentLoaded', () => {
+        renderCart();
+        updatePrices();
+    });
+</script>
+
+</body>
+</html>

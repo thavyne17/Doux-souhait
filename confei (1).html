@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doux Souhait — Confeitaria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:    #c97b84;
+            --rose-dk: #9e5560;
+            --cream:   #fdf6f0;
+            --parchment: #f5ebe2;
+            --text:    #3a2a2a;
+            --text-soft: #7a5f5f;
+            --gold:    #c4a882;
+            --gold-lt: #e8d8c4;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── HEADER ─────────────────────────────────────────── */
+        header {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #1c1010;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,123,132,.18) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(196,168,130,.10) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* decorative soft frame */
+        header::after {
+            content: '';
+            position: absolute;
+            inset: 2rem;
+            border: 1px solid rgba(196,168,130,.25);
+            pointer-events: none;
+        }
+
+        .brand-tag {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: clamp(.65rem, 1.2vw, .8rem);
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: .8;
+            margin-bottom: 1.8rem;
+            animation: fadeUp .9s ease both;
+        }
+
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(3.2rem, 10vw, 8rem);
+            line-height: 1;
+            color: #f5ebe2;
+            letter-spacing: .02em;
+            animation: fadeUp 1s .15s ease both;
+        }
+
+        header h1 em {
+            font-style: italic;
+            color: var(--rose);
+        }
+
+        .header-sub {
+            margin-top: 1.6rem;
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: clamp(.8rem, 1.8vw, 1rem);
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--gold-lt);
+            opacity: .7;
+            animation: fadeUp 1s .3s ease both;
+        }
+
+        .header-ornament {
+            margin: 2.4rem auto 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold);
+            opacity: .5;
+            animation: fadeUp 1s .45s ease both;
+        }
+        .header-ornament span { font-size: 1.3rem; }
+        .header-ornament::before,
+        .header-ornament::after {
+            content: '';
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* ── SCROLL CUE ──────────────────────────────────────── */
+        .scroll-cue {
+            position: absolute;
+            bottom: 2.4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            color: var(--gold);
+            opacity: .4;
+            font-size: .65rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            animation: fadeUp 1s .6s ease both;
+        }
+        .scroll-cue .line {
+            width: 1px;
+            height: 40px;
+            background: var(--gold);
+            animation: scrollLine 2s 1s ease-in-out infinite;
+        }
+        @keyframes scrollLine {
+            0%, 100% { transform: scaleY(1); opacity: .4; }
+            50%       { transform: scaleY(.4); opacity: .1; }
+        }
+
+        /* ── MAIN ────────────────────────────────────────────── */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        /* ── SECTION ABOUT ───────────────────────────────────── */
+        .section-label {
+            font-size: .7rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--rose);
+            font-weight: 400;
+            margin-bottom: 1.2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .about-left h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 1.6rem;
+        }
+
+        .about-left h2 em {
+            font-style: italic;
+            color: var(--rose-dk);
+        }
+
+        .about-left p {
+            color: var(--text-soft);
+            font-size: .98rem;
+            line-height: 1.85;
+            margin-bottom: 1.2rem;
+        }
+
+        /* quote block */
+        .quote-block {
+            position: relative;
+            margin-top: 3rem;
+            padding: 2.4rem 2rem 2rem 2.8rem;
+            background: var(--parchment);
+            border-left: 2px solid var(--gold);
+        }
+
+        .quote-block::before {
+            content: '\201C';
+            position: absolute;
+            top: -.5rem;
+            left: 1.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--gold);
+            opacity: .35;
+        }
+
+        .quote-block p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+            line-height: 1.75;
+            color: var(--text-soft);
+        }
+
+        .quote-attr {
+            display: block;
+            margin-top: 1rem;
+            font-family: 'Jost', sans-serif;
+            font-size: .7rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        /* decorative right side */
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-top: 4rem;
+        }
+
+        .about-card {
+            padding: 2rem;
+            border: 1px solid var(--gold-lt);
+            background: #fff;
+            position: relative;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .about-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(201,123,132,.1);
+        }
+
+        .about-card .icon {
+            font-size: 1.4rem;
+            margin-bottom: .8rem;
+        }
+
+        .about-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: .5rem;
+        }
+
+        .about-card p {
+            font-size: .88rem;
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        /* ── DIVIDER ─────────────────────────────────────────── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 5rem 0;
+            color: var(--gold);
+            opacity: .4;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gold);
+        }
+        .divider span { font-size: 1rem; }
+
+        /* ── CONTACT SECTION ─────────────────────────────────── */
+        .contact-section {
+            background: #1c1010;
+            color: var(--gold-lt);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .contact-section .section-label { color: var(--gold); }
+
+        .contact-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #f5ebe2;
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            min-width: 180px;
+        }
+
+        .contact-item .c-label {
+            font-size: .65rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: .7;
+        }
+
+        .contact-item .c-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: #f5ebe2;
+            letter-spacing: .04em;
+        }
+
+        .contact-address {
+            font-size: .82rem;
+            color: var(--text-soft);
+            max-width: 420px;
+            margin: 0 auto;
+            line-height: 1.8;
+            border-top: 1px solid rgba(196,168,130,.15);
+            padding-top: 2rem;
+        }
+
+        .contact-address strong {
+            display: block;
+            color: var(--gold);
+            font-weight: 300;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            font-size: .68rem;
+            margin-bottom: .6rem;
+        }
+
+        /* ── FOOTER ──────────────────────────────────────────── */
+        footer {
+            background: #110a0a;
+            padding: 1.6rem 2rem;
+            text-align: center;
+            font-size: .7rem;
+            letter-spacing: .12em;
+            color: rgba(196,168,130,.35);
+            text-transform: uppercase;
+        }
+
+        /* ── BACK TO MENU BUTTON ─────────────────────────────── */
+        .btn-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            position: fixed;
+            top: 1.6rem;
+            left: 1.6rem;
+            z-index: 100;
+            padding: .6rem 1.2rem .6rem .9rem;
+            background: rgba(28,16,16,.75);
+            border: 1px solid rgba(196,168,130,.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--gold-lt);
+            font-family: 'Jost', sans-serif;
+            font-size: .7rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            transition: background .3s ease, border-color .3s ease, color .3s ease;
+        }
+
+        .btn-menu:hover {
+            background: rgba(196,168,130,.15);
+            border-color: rgba(196,168,130,.6);
+            color: #f5ebe2;
+        }
+
+        .btn-menu svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            transition: transform .3s ease;
+        }
+
+        .btn-menu:hover svg {
+            transform: translateX(-3px);
+        }
+
+        /* ── ANIMATIONS ──────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────────── */
+        @media (max-width: 768px) {
+            header::after { inset: 1rem; }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-right { padding-top: 0; }
+
+            .contact-grid { gap: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: clamp(2.8rem, 18vw, 4.5rem); }
+            main { padding: 4rem 1.2rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── BACK TO MENU BUTTON ─────────────────────── -->
+<a href="index.html" class="btn-menu">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Menu
+</a>
+
+<!-- ── HEADER ──────────────────────────────────── -->
+<header>
+    <p class="brand-tag">Depuis 2022 &nbsp;·&nbsp; Handcrafted with love</p>
+    <h1>Doux <em>Souhait</em></h1>
+    <p class="header-sub">A sua confeitaria favorita</p>
+    <div class="header-ornament"><span>✦</span></div>
+    <div class="scroll-cue">
+        <div class="line"></div>
+        <span>Descubra</span>
+    </div>
+</header>
+
+<!-- ── MAIN ────────────────────────────────────── -->
+<main>
+
+    <div class="about-grid">
+        <!-- LEFT -->
+        <div class="about-left">
+            <p class="section-label">Nossa história</p>
+            <h2>Cada doce carrega <em>uma história</em></h2>
+            <p>
+                Em 2022, nasceu uma ideia que se transformou em um verdadeiro sonho: a confeitaria Doux Souhait.
+                Desde o início, nossa missão foi clara e apaixonante — trazer felicidade e boas memórias para todos
+                que cruzassem as portas do nosso doce refúgio.
+            </p>
+            <p>
+                A confeitaria não é apenas um lugar onde se compra doces; é um espaço onde cada preparo carrega
+                consigo uma história, um sentimento, uma lembrança que queremos que nossos clientes levem para casa.
+            </p>
+
+            <div class="quote-block">
+                <p>
+                    Lembro-me de uma cliente que, ao saborear um de nossos brigadeiros gourmet, me contou que aquele
+                    gosto a remeteu à infância, às tardes passadas na casa da avó, cercada de risos e amor. Momentos
+                    como esse nos mostraram que estamos no caminho certo.
+                </p>
+                <span class="quote-attr">— Relato de um funcionário</span>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="about-right">
+            <div class="about-card">
+                <div class="icon">🍰</div>
+                <h3>Bolos Artesanais</h3>
+                <p>Camadas generosas recheadas com cremes feitos à mão, desenvolvidos para provocar sorrisos a cada garfada.</p>
+            </div>
+            <div class="about-card">
+                <div class="icon">🫧</div>
+                <h3>Macarons Delicados</h3>
+                <p>Leveza e sofisticação em cada concha — sabores que derretem na boca e ficam na memória.</p>
+            </div>
+            <div class="about-card">
+                <div class="icon">🍫</div>
+                <h3>Brigadeiros Gourmet</h3>
+                <p>A tradição brasileira elevada ao requinte, com ingredientes selecionados e acabamento impecável.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+</main>
+
+<!-- ── CONTACT ──────────────────────────────────── -->
+<section class="contact-section">
+    <p class="section-label">Fale conosco</p>
+    <h2>Venha nos visitar</h2>
+
+    <div class="contact-grid">
+        <div class="contact-item">
+            <span class="c-label">Telefone</span>
+            <span class="c-value">(85) 9945-2367</span>
+        </div>
+        <div class="contact-item">
+            <span class="c-label">WhatsApp</span>
+            <span class="c-value">(85) 9902-0851</span>
+        </div>
+    </div>
+
+    <div class="contact-address">
+        <strong>Onde nos encontrar</strong>
+        Al Mussallah Rd Downtown Dubai, Near Souk Al Bahar Bridge,<br>
+        Dubai 113444, Emirate of Dubai
+    </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer>
+    &copy; 2024 Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utensílios — Doux Souhait</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:      #c97b84;
+            --rose-dk:   #9e5560;
+            --cream:     #fdf6f0;
+            --parchment: #f5ebe2;
+            --text:      #3a2a2a;
+            --text-soft: #7a5f5f;
+            --gold:      #c4a882;
+            --gold-lt:   #e8d8c4;
+            --dark:      #1c1010;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── BACK BUTTON ─────────────────────────────────────── */
+        .btn-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            position: fixed;
+            top: 1.6rem;
+            left: 1.6rem;
+            z-index: 100;
+            padding: .6rem 1.2rem .6rem .9rem;
+            background: rgba(28,16,16,.75);
+            border: 1px solid rgba(196,168,130,.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--gold-lt);
+            font-family: 'Jost', sans-serif;
+            font-size: .7rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            transition: background .3s ease, border-color .3s ease, color .3s ease;
+        }
+        .btn-menu:hover {
+            background: rgba(196,168,130,.15);
+            border-color: rgba(196,168,130,.6);
+            color: #f5ebe2;
+        }
+        .btn-menu svg {
+            width: 14px; height: 14px;
+            stroke: currentColor; fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round; stroke-linejoin: round;
+            flex-shrink: 0;
+            transition: transform .3s ease;
+        }
+        .btn-menu:hover svg { transform: translateX(-3px); }
+
+        /* ── HEADER ─────────────────────────────────────────── */
+        header {
+            position: relative;
+            min-height: 52vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 2rem 4rem;
+            background-color: var(--dark);
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,123,132,.15) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 80% 20%, rgba(196,168,130,.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            inset: 1.5rem;
+            border: 1px solid rgba(196,168,130,.18);
+            pointer-events: none;
+        }
+
+        .brand-tag {
+            font-size: .68rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: .75;
+            margin-bottom: 1.4rem;
+            animation: fadeUp .8s ease both;
+        }
+
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2.8rem, 8vw, 6rem);
+            line-height: 1.05;
+            color: #f5ebe2;
+            letter-spacing: .02em;
+            animation: fadeUp .9s .1s ease both;
+        }
+
+        header h1 em {
+            font-style: italic;
+            color: var(--rose);
+        }
+
+        .header-sub {
+            margin-top: 1.2rem;
+            font-size: clamp(.75rem, 1.6vw, .88rem);
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--gold-lt);
+            opacity: .6;
+            animation: fadeUp .9s .2s ease both;
+        }
+
+        .header-ornament {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold);
+            opacity: .45;
+            animation: fadeUp .9s .3s ease both;
+        }
+        .header-ornament::before,
+        .header-ornament::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* ── MAIN ────────────────────────────────────────────── */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 2rem 4rem;
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-label {
+            font-size: .68rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--rose);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro p {
+            color: var(--text-soft);
+            font-size: .95rem;
+            line-height: 1.85;
+        }
+
+        /* ── GRID ────────────────────────────────────────────── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* ── CARD ────────────────────────────────────────────── */
+        .card {
+            background: #fff;
+            border: 1px solid var(--gold-lt);
+            display: flex;
+            flex-direction: column;
+            transition: transform .35s ease, box-shadow .35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(201,123,132,.12);
+        }
+
+        /* image placeholder */
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* shown when img src is empty */
+        .card-img .placeholder-icon {
+            font-size: 3rem;
+            opacity: .25;
+            user-select: none;
+        }
+
+        .card-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(28,16,16,.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* card body */
+        .card-body {
+            padding: 1.6rem 1.6rem 1.8rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .card-body h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 1.45rem;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .card-body .supplier {
+            font-size: .75rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            opacity: .7;
+        }
+
+        .card-body .supplier span {
+            color: var(--gold);
+        }
+
+        .card-footer {
+            padding: 1rem 1.6rem 1.4rem;
+            border-top: 1px solid var(--gold-lt);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preco {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--rose-dk);
+            letter-spacing: .02em;
+        }
+
+        .preco-label {
+            font-size: .62rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            opacity: .6;
+        }
+
+        /* ── DIVIDER ─────────────────────────────────────────── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 4rem 0 0;
+            color: var(--gold);
+            opacity: .35;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* ── FOOTER ──────────────────────────────────────────── */
+        footer {
+            background: var(--dark);
+            padding: 1.6rem 2rem;
+            text-align: center;
+            font-size: .68rem;
+            letter-spacing: .12em;
+            color: rgba(196,168,130,.32);
+            text-transform: uppercase;
+        }
+
+        /* ── ANIMATIONS ──────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────────── */
+        @media (max-width: 600px) {
+            header { min-height: 40vh; }
+            header::after { inset: .8rem; }
+            main { padding: 3.5rem 1.2rem 3rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── BACK BUTTON ─────────────────────────────── -->
+<a href="index.html" class="btn-menu">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Menu
+</a>
+
+<!-- ── HEADER ──────────────────────────────────── -->
+<header>
+    <p class="brand-tag">Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal</p>
+    <h1>Nossos <em>Utensílios</em></h1>
+    <p class="header-sub">Ferramentas selecionadas pelos nossos colaboradores</p>
+    <div class="header-ornament"><span>✦</span></div>
+</header>
+
+<!-- ── MAIN ────────────────────────────────────── -->
+<main>
+
+    <div class="section-intro">
+        <p class="section-label">Nossos parceiros</p>
+        <p>Cada utensílio utilizado na Doux Souhait é cuidadosamente escolhido por nossos colaboradores — ferramentas que fazem a diferença na qualidade e no acabamento de cada criação.</p>
+    </div>
+
+    <div class="grid">
+
+        <!-- Forma de Bolo -->
+        <div class="card">
+            <div class="card-img">
+                <img src="" alt="Forma de Bolo" onerror="this.style.display='none'">
+                <span class="placeholder-icon">🎂</span>
+            </div>
+            <div class="card-body">
+                <h2>Forma de Bolo</h2>
+                <p class="supplier">Fornecedor &nbsp;<span>Casa do Confeiteiro</span></p>
+            </div>
+            <div class="card-footer">
+                <span class="preco-label">Preço</span>
+                <span class="preco">R$ 25,00</span>
+            </div>
+        </div>
+
+        <!-- Espátula -->
+        <div class="card">
+            <div class="card-img">
+                <img src="" alt="Espátula" onerror="this.style.display='none'">
+                <span class="placeholder-icon">🍴</span>
+            </div>
+            <div class="card-body">
+                <h2>Espátula</h2>
+                <p class="supplier">Fornecedor &nbsp;<span>Utensílios de Cozinha Ltda.</span></p>
+            </div>
+            <div class="card-footer">
+                <span class="preco-label">Preço</span>
+                <span class="preco">R$ 15,00</span>
+            </div>
+        </div>
+
+        <!-- Balança Digital -->
+        <div class="card">
+            <div class="card-img">
+                <img src="" alt="Balança Digital" onerror="this.style.display='none'">
+                <span class="placeholder-icon">⚖️</span>
+            </div>
+            <div class="card-body">
+                <h2>Balança Digital</h2>
+                <p class="supplier">Fornecedor &nbsp;<span>Eletrodomésticos Online</span></p>
+            </div>
+            <div class="card-footer">
+                <span class="preco-label">Preço</span>
+                <span class="preco">R$ 85,00</span>
+            </div>
+        </div>
+
+        <!-- Conjunto de Medidores -->
+        <div class="card">
+            <div class="card-img">
+                <img src="" alt="Conjunto de Medidores" onerror="this.style.display='none'">
+                <span class="placeholder-icon">🥄</span>
+            </div>
+            <div class="card-body">
+                <h2>Conjunto de Medidores</h2>
+                <p class="supplier">Fornecedor &nbsp;<span>Acessórios para Confeitaria</span></p>
+            </div>
+            <div class="card-footer">
+                <span class="preco-label">Preço</span>
+                <span class="preco">R$ 30,00</span>
+            </div>
+        </div>
+
+        <!-- Assadeira Retangular -->
+        <div class="card">
+            <div class="card-img">
+                <img src="" alt="Assadeira Retangular" onerror="this.style.display='none'">
+                <span class="placeholder-icon">🍞</span>
+            </div>
+            <div class="card-body">
+                <h2>Assadeira Retangular</h2>
+                <p class="supplier">Fornecedor &nbsp;<span>Utensílios Gourmet</span></p>
+            </div>
+            <div class="card-footer">
+                <span class="preco-label">Preço</span>
+                <span class="preco">R$ 45,00</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+</main>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer>
+    &copy; 2024 Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal
+</footer>
+
+</body>
+</html>

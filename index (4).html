@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Doux Souhait — Confeitaria Artesanal">
+    <meta property="og:description" content="Descubra as melhores ofertas em doces, chocolates e confeitaria!">
+    <meta property="og:image" content="banner.jpg">
+    <meta name="theme-color" content="#1c1010">
+    <title>Doux Souhait — Confeitaria Artesanal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:      #c97b84;
+            --rose-dk:   #9e5560;
+            --cream:     #fdf6f0;
+            --parchment: #f5ebe2;
+            --text:      #3a2a2a;
+            --text-soft: #7a5f5f;
+            --gold:      #c4a882;
+            --gold-lt:   #e8d8c4;
+            --dark:      #1c1010;
+            --green:     #5a7a5a;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ──────────────────────────────────────────── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            background: rgba(28,16,16,.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(196,168,130,.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 58px;
+        }
+
+        .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.3rem;
+            color: #f5ebe2;
+            letter-spacing: .04em;
+            text-decoration: none;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+        }
+        .navbar-brand em { font-style: italic; color: var(--rose); }
+        .navbar-brand img {
+            height: 34px;
+            width: auto;
+            object-fit: contain;
+            opacity: .9;
+            filter: brightness(1.05);
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: .2rem;
+            list-style: none;
+        }
+        .navbar-links a {
+            font-size: .68rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: rgba(245,235,226,.5);
+            text-decoration: none;
+            padding: .45rem .8rem;
+            border-radius: 2px;
+            transition: color .25s, background .25s;
+            white-space: nowrap;
+        }
+        .navbar-links a:hover {
+            color: var(--gold-lt);
+            background: rgba(196,168,130,.08);
+        }
+
+        /* cart pill in navbar */
+        .navbar-cart {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .68rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            cursor: pointer;
+            padding: .4rem .75rem;
+            border: 1px solid rgba(196,168,130,.25);
+            border-radius: 2px;
+            transition: background .25s, border-color .25s;
+            flex-shrink: 0;
+        }
+        .navbar-cart:hover { background: rgba(196,168,130,.1); border-color: rgba(196,168,130,.5); }
+        .navbar-cart svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        #cart-count {
+            background: var(--rose-dk);
+            color: #fff;
+            font-size: .58rem;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 400;
+        }
+
+        /* hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: .3rem;
+        }
+        .hamburger span { display: block; width: 20px; height: 1px; background: var(--gold); transition: all .3s; }
+
+        /* mobile menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            background: rgba(28,16,16,.97);
+            border-bottom: 1px solid rgba(196,168,130,.15);
+            padding: .5rem 0;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            font-size: .72rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: rgba(245,235,226,.55);
+            text-decoration: none;
+            padding: .75rem 1.8rem;
+            border-bottom: 1px solid rgba(196,168,130,.06);
+            transition: color .25s, background .25s;
+        }
+        .mobile-menu a:hover { color: var(--gold-lt); background: rgba(196,168,130,.06); }
+
+        /* ── HERO BANNER ─────────────────────────────────────── */
+        .hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 2rem;
+            background: url('banner.jpg') center/cover no-repeat var(--dark);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 70% at 50% 50%, rgba(28,16,16,.62) 0%, rgba(28,16,16,.85) 100%);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 1.5rem;
+            border: 1px solid rgba(196,168,130,.18);
+            pointer-events: none;
+        }
+        .hero-tag {
+            position: relative; z-index: 1;
+            font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+            color: var(--gold); opacity: .75; margin-bottom: 1.2rem;
+            animation: fadeUp .8s ease both;
+        }
+        .hero h1 {
+            position: relative; z-index: 1;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2.8rem, 9vw, 6.5rem);
+            line-height: 1; color: #f5ebe2;
+            animation: fadeUp .9s .1s ease both;
+        }
+        .hero h1 em { font-style: italic; color: var(--rose); }
+        .hero-sub {
+            position: relative; z-index: 1;
+            margin-top: 1rem;
+            font-size: clamp(.78rem, 1.8vw, .92rem);
+            letter-spacing: .22em; text-transform: uppercase;
+            color: var(--gold-lt); opacity: .6;
+            animation: fadeUp .9s .2s ease both;
+        }
+        .hero-ornament {
+            position: relative; z-index: 1;
+            margin-top: 1.8rem;
+            display: flex; align-items: center; gap: 1rem;
+            color: var(--gold); opacity: .45;
+            animation: fadeUp .9s .3s ease both;
+        }
+        .hero-ornament::before, .hero-ornament::after { content: ''; width: 50px; height: 1px; background: var(--gold); }
+
+        /* promo badge */
+        .hero-promo {
+            position: relative; z-index: 1;
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            background: rgba(158,85,96,.25);
+            border: 1px solid rgba(201,123,132,.4);
+            backdrop-filter: blur(8px);
+            padding: .6rem 1.3rem;
+            font-size: .72rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--gold-lt);
+            animation: fadeUp .9s .4s ease both;
+        }
+        .hero-promo strong { color: var(--rose); font-weight: 400; }
+
+        /* ── MAIN ────────────────────────────────────────────── */
+        main { padding-bottom: 4rem; }
+
+        /* ── SECTION TITLE ───────────────────────────────────── */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 4rem auto 2rem;
+            padding: 0 2rem;
+        }
+        .section-head::after { content: ''; flex: 1; height: 1px; background: var(--gold-lt); }
+        .section-head-inner { display: flex; flex-direction: column; gap: .25rem; }
+        .section-head .label {
+            font-size: .62rem; letter-spacing: .32em; text-transform: uppercase;
+            color: var(--rose); font-weight: 400;
+        }
+        .section-head h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            color: var(--text); line-height: 1.1; white-space: nowrap;
+        }
+        .section-head h2 em { font-style: italic; color: var(--rose-dk); }
+
+        /* ── PRODUCT GRID ────────────────────────────────────── */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ── PRODUCT CARD ────────────────────────────────────── */
+        .card {
+            background: #fff;
+            border: 1px solid var(--gold-lt);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform .35s ease, box-shadow .35s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(201,123,132,.12);
+        }
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: var(--parchment);
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .card-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block;
+            transition: transform .5s ease;
+        }
+        .card:hover .card-img img { transform: scale(1.05); }
+        .card-img .placeholder { font-size: 3rem; opacity: .18; user-select: none; }
+
+        .card-body {
+            padding: 1rem 1.2rem .6rem;
+            flex: 1; display: flex; flex-direction: column; gap: .3rem;
+        }
+        .card-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400; font-size: 1.2rem;
+            color: var(--text); line-height: 1.2;
+        }
+        .card-price {
+            display: flex; align-items: baseline; gap: .5rem;
+        }
+        .price-now {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem; color: var(--rose-dk);
+        }
+        .price-old {
+            font-size: .78rem; color: rgba(122,95,95,.4);
+            text-decoration: line-through;
+        }
+        .card-footer {
+            padding: .7rem 1.2rem 1rem;
+            border-top: 1px solid var(--gold-lt);
+        }
+        .btn-detail {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: .5rem; width: 100%;
+            font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--rose-dk);
+            background: none;
+            border: 1px solid var(--rose);
+            padding: .55rem;
+            border-radius: 2px; cursor: pointer;
+            font-family: 'Jost', sans-serif; font-weight: 300;
+            text-decoration: none;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-detail:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+
+        /* ── MODAL ───────────────────────────────────────────── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(28,16,16,.7);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            align-items: center; justify-content: center;
+            padding: 1.5rem;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: var(--cream);
+            max-width: 460px; width: 100%;
+            border: 1px solid var(--gold-lt);
+            position: relative;
+            animation: fadeUp .3s ease;
+            display: flex; flex-direction: column;
+        }
+        .modal-img {
+            width: 100%; aspect-ratio: 16/9;
+            background: var(--parchment);
+            overflow: hidden; position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .modal-img .placeholder { font-size: 4rem; opacity: .15; }
+        .modal-body { padding: 1.8rem 1.8rem 1.4rem; }
+        .modal-body .m-label {
+            font-size: .62rem; letter-spacing: .3em; text-transform: uppercase;
+            color: var(--rose); display: block; margin-bottom: .6rem;
+        }
+        .modal-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400; font-size: 1.8rem; color: var(--text);
+            margin-bottom: .5rem;
+        }
+        .modal-body .m-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem; color: var(--rose-dk); margin-bottom: 1.2rem;
+        }
+        .modal-footer {
+            padding: 1rem 1.8rem 1.5rem;
+            display: flex; gap: .8rem;
+            border-top: 1px solid var(--gold-lt);
+        }
+        .btn-add {
+            flex: 1; display: flex; align-items: center; justify-content: center; gap: .5rem;
+            background: var(--rose-dk); color: #fff;
+            border: 1px solid var(--rose-dk);
+            padding: .7rem; font-family: 'Jost', sans-serif;
+            font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+            font-weight: 300; cursor: pointer; border-radius: 2px;
+            transition: background .3s;
+        }
+        .btn-add:hover { background: #7a3f48; }
+        .btn-add svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        .btn-close-modal {
+            display: flex; align-items: center; justify-content: center;
+            width: 44px; flex-shrink: 0;
+            background: none; border: 1px solid var(--gold-lt);
+            cursor: pointer; border-radius: 2px; color: var(--text-soft);
+            transition: background .3s;
+        }
+        .btn-close-modal:hover { background: var(--parchment); }
+        .btn-close-modal svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+        .modal-close-x {
+            position: absolute; top: .8rem; right: .8rem;
+            background: rgba(28,16,16,.5); border: 1px solid rgba(196,168,130,.3);
+            color: var(--gold-lt); width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border-radius: 2px; z-index: 5;
+            transition: background .3s;
+        }
+        .modal-close-x:hover { background: rgba(196,168,130,.2); }
+        .modal-close-x svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+        /* ── TOAST ───────────────────────────────────────────── */
+        .toast {
+            position: fixed; bottom: 5.5rem; right: 1.5rem;
+            background: var(--dark); border: 1px solid var(--gold-lt);
+            color: var(--gold-lt); padding: .75rem 1.2rem;
+            font-size: .72rem; letter-spacing: .08em;
+            display: flex; align-items: center; gap: .6rem;
+            border-radius: 2px; z-index: 300;
+            transform: translateY(60px); opacity: 0;
+            transition: transform .35s ease, opacity .35s ease;
+            pointer-events: none;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast svg { width: 14px; height: 14px; stroke: var(--rose); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+        /* ── FLOATING CART ───────────────────────────────────── */
+        .cart-fab {
+            position: fixed; bottom: 1.6rem; right: 1.6rem;
+            z-index: 150;
+            display: flex; align-items: center; gap: .5rem;
+            background: var(--dark); border: 1px solid rgba(196,168,130,.3);
+            color: var(--gold-lt);
+            padding: .7rem 1.1rem;
+            border-radius: 2px;
+            font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+            cursor: pointer;
+            transition: background .3s, border-color .3s;
+            box-shadow: 0 6px 20px rgba(0,0,0,.25);
+        }
+        .cart-fab:hover { background: rgba(196,168,130,.12); border-color: rgba(196,168,130,.5); }
+        .cart-fab svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        .cart-fab #cart-count {
+            background: var(--rose-dk); color: #fff;
+            font-size: .58rem; width: 17px; height: 17px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── DIVIDER ─────────────────────────────────────────── */
+        .divider {
+            display: flex; align-items: center; gap: 1.5rem;
+            max-width: 1200px; margin: 4rem auto 0; padding: 0 2rem;
+            color: var(--gold); opacity: .3;
+        }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--gold); }
+
+        /* ── FOOTER ──────────────────────────────────────────── */
+        footer {
+            background: var(--dark); padding: 1.6rem 2rem;
+            text-align: center; font-size: .68rem;
+            letter-spacing: .12em; color: rgba(196,168,130,.32);
+            text-transform: uppercase; margin-top: 4rem;
+        }
+
+        /* ── ANIMATIONS ──────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .navbar-links { display: none; }
+            .hamburger { display: flex; }
+            .hero { min-height: 55vh; }
+            .hero::after { inset: .8rem; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 0 1.2rem; }
+            .section-head { padding: 0 1.2rem; }
+        }
+        @media (max-width: 420px) {
+            .products-grid { grid-template-columns: 1fr; }
+            .navbar { padding: 0 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────── -->
+<nav class="navbar">
+    <a href="#" class="navbar-brand">
+        <img src="logo.png" alt="Doux Souhait" onerror="this.style.display='none'">
+        Doux <em>Souhait</em>
+    </a>
+    <ul class="navbar-links">
+        <li><a href="login.html">Login</a></li>
+        <li><a href="confei.html">Confeitaria</a></li>
+        <li><a href="embalagem.html">Embalagens</a></li>
+        <li><a href="utensilios.html">Utensílios</a></li>
+        <li><a href="promocao.html">Promoções</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:.8rem;">
+        <div class="navbar-cart" onclick="window.location.href='carrinho.html'">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span id="cart-count">0</span>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+    <a href="login.html">Login</a>
+    <a href="confei (1).html">Confeitaria</a>
+    <a href="embalagem.html">Embalagens</a>
+    <a href="utensilios.html">Utensílios</a>
+    <a href="promocao.html">Promoções</a>
+</div>
+
+<!-- ── HERO ────────────────────────────────────── -->
+<section class="hero">
+    <p class="hero-tag">Desde 2022 &nbsp;·&nbsp; Artesanal com amor</p>
+    <h1>Doux <em>Souhait</em></h1>
+    <p class="hero-sub">A sua confeitaria favorita</p>
+    <div class="hero-ornament"><span>✦</span></div>
+    <div class="hero-promo">✦ &nbsp; Black Friday — Até <strong>62% de desconto</strong> &nbsp; ✦</div>
+</section>
+
+<!-- ── MAIN ────────────────────────────────────── -->
+<main>
+
+    <!-- Destaques -->
+    <div class="section-head">
+        <div class="section-head-inner">
+            <span class="label">Em evidência</span>
+            <h2><em>Destaques</em></h2>
+        </div>
+    </div>
+    <div class="products-grid">
+        <div class="card" onclick="openModal('Maçã Trufada','maca-trufada-small.jpg','R$ 10,00','')">
+            <div class="card-img"><img src="maca-trufada-small.jpg" srcset="maca-trufada-small.jpg 480w, maca-trufada-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Maçã Trufada" onerror="this.style.display='none'"><span class="placeholder">🍎</span></div>
+            <div class="card-body"><h3>Maçã Trufada</h3><div class="card-price"><span class="price-now">R$ 10,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Doces Variados','doces-variados-small.jpg','R$ 15,00','')">
+            <div class="card-img"><img src="doces-variados-small.jpg" srcset="doces-variados-small.jpg 480w, doces-variados-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Doces Variados" onerror="this.style.display='none'"><span class="placeholder">🍬</span></div>
+            <div class="card-body"><h3>Doces Variados</h3><div class="card-price"><span class="price-now">R$ 15,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Doce do Desejo','doce-desejo-small.jpg','R$ 12,00','')">
+            <div class="card-img"><img src="doce-desejo-small.jpg" srcset="doce-desejo-small.jpg 480w, doce-desejo-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Doce do Desejo" onerror="this.style.display='none'"><span class="placeholder">✨</span></div>
+            <div class="card-body"><h3>Doce do Desejo</h3><div class="card-price"><span class="price-now">R$ 12,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+    </div>
+
+    <!-- Chocolates -->
+    <div class="section-head">
+        <div class="section-head-inner">
+            <span class="label">Seleção especial</span>
+            <h2><em>Chocolates</em></h2>
+        </div>
+    </div>
+    <div class="products-grid">
+        <div class="card" onclick="openModal('Trufa de Chocolate Belga','trufa-chocolate-small.jpg','R$ 18,00','')">
+            <div class="card-img"><img src="trufa-chocolate-small.jpg" srcset="trufa-chocolate-small.jpg 480w, trufa-chocolate-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Trufa de Chocolate Belga" onerror="this.style.display='none'"><span class="placeholder">🍫</span></div>
+            <div class="card-body"><h3>Trufa de Chocolate Belga</h3><div class="card-price"><span class="price-now">R$ 18,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Bombom Recheado Sortido','bombom-recheado-small.jpg','R$ 22,00','')">
+            <div class="card-img"><img src="bombom-recheado-small.jpg" srcset="bombom-recheado-small.jpg 480w, bombom-recheado-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Bombom Recheado Sortido" onerror="this.style.display='none'"><span class="placeholder">🍬</span></div>
+            <div class="card-body"><h3>Bombom Recheado Sortido</h3><div class="card-price"><span class="price-now">R$ 22,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Barra Meio Amargo Artesanal','chocolate-meio-amargo-small.jpg','R$ 25,00','')">
+            <div class="card-img"><img src="chocolate-meio-amargo-small.jpg" srcset="chocolate-meio-amargo-small.jpg 480w, chocolate-meio-amargo-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Barra de Chocolate Meio Amargo" onerror="this.style.display='none'"><span class="placeholder">🍫</span></div>
+            <div class="card-body"><h3>Barra Meio Amargo Artesanal</h3><div class="card-price"><span class="price-now">R$ 25,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Casquinha de Chocolate Branco','casquinha-chocolate-small.jpg','R$ 14,00','')">
+            <div class="card-img"><img src="casquinha-chocolate-small.jpg" srcset="casquinha-chocolate-small.jpg 480w, casquinha-chocolate-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Casquinha de Chocolate Branco" onerror="this.style.display='none'"><span class="placeholder">🤍</span></div>
+            <div class="card-body"><h3>Casquinha de Chocolate Branco</h3><div class="card-price"><span class="price-now">R$ 14,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+    </div>
+
+    <!-- Confeitaria -->
+    <div class="section-head">
+        <div class="section-head-inner">
+            <span class="label">Feito à mão</span>
+            <h2><em>Confeitaria</em></h2>
+        </div>
+    </div>
+    <div class="products-grid">
+        <div class="card" onclick="openModal('Brigadeiro Gourmet','brigadeiro-gourmet-small.jpg','R$ 5,00','')">
+            <div class="card-img"><img src="brigadeiro-gourmet-small.jpg" srcset="brigadeiro-gourmet-small.jpg 480w, brigadeiro-gourmet-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Brigadeiro Gourmet" onerror="this.style.display='none'"><span class="placeholder">🎂</span></div>
+            <div class="card-body"><h3>Brigadeiro Gourmet</h3><div class="card-price"><span class="price-now">R$ 5,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Beijinho de Coco','beijinho-coco-small.jpg','R$ 5,00','')">
+            <div class="card-img"><img src="beijinho-coco-small.jpg" srcset="beijinho-coco-small.jpg 480w, beijinho-coco-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Beijinho de Coco" onerror="this.style.display='none'"><span class="placeholder">🥥</span></div>
+            <div class="card-body"><h3>Beijinho de Coco</h3><div class="card-price"><span class="price-now">R$ 5,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Cajuzinho Tradicional','cajuzinho-small.jpg','R$ 4,50','')">
+            <div class="card-img"><img src="cajuzinho-small.jpg" srcset="cajuzinho-small.jpg 480w, cajuzinho-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Cajuzinho Tradicional" onerror="this.style.display='none'"><span class="placeholder">🥜</span></div>
+            <div class="card-body"><h3>Cajuzinho Tradicional</h3><div class="card-price"><span class="price-now">R$ 4,50</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Olho de Sogra','olho-de-sogra-small.jpg','R$ 4,50','')">
+            <div class="card-img"><img src="olho-de-sogra-small.jpg" srcset="olho-de-sogra-small.jpg 480w, olho-de-sogra-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Olho de Sogra" onerror="this.style.display='none'"><span class="placeholder">🍡</span></div>
+            <div class="card-body"><h3>Olho de Sogra</h3><div class="card-price"><span class="price-now">R$ 4,50</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+    </div>
+
+    <!-- Promoções Black Friday -->
+    <div class="section-head">
+        <div class="section-head-inner">
+            <span class="label">Black Friday</span>
+            <h2><em>Promoções</em></h2>
+        </div>
+    </div>
+    <div class="products-grid">
+        <div class="card" onclick="openModal('Caixa de Trufas Sortidas','caixa-trufas-small.jpg','R$ 45,00','R$ 75,00')">
+            <div class="card-img"><img src="caixa-trufas-small.jpg" srcset="caixa-trufas-small.jpg 480w, caixa-trufas-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Caixa de Trufas Sortidas" onerror="this.style.display='none'"><span class="placeholder">🎁</span></div>
+            <div class="card-body"><h3>Caixa de Trufas Sortidas</h3><div class="card-price"><span class="price-now">R$ 45,00</span><span class="price-old">R$ 75,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Kit Festa Completo','kit-festa-small.jpg','R$ 89,00','R$ 140,00')">
+            <div class="card-img"><img src="kit-festa-small.jpg" srcset="kit-festa-small.jpg 480w, kit-festa-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Kit Festa Completo" onerror="this.style.display='none'"><span class="placeholder">🥳</span></div>
+            <div class="card-body"><h3>Kit Festa Completo</h3><div class="card-price"><span class="price-now">R$ 89,00</span><span class="price-old">R$ 140,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+        <div class="card" onclick="openModal('Cesta de Doces Especial','cesta-doces-small.jpg','R$ 120,00','R$ 200,00')">
+            <div class="card-img"><img src="cesta-doces-small.jpg" srcset="cesta-doces-small.jpg 480w, cesta-doces-large.jpg 800w" sizes="(max-width:600px) 480px, 800px" alt="Cesta de Doces Especial" onerror="this.style.display='none'"><span class="placeholder">🧺</span></div>
+            <div class="card-body"><h3>Cesta de Doces Especial</h3><div class="card-price"><span class="price-now">R$ 120,00</span><span class="price-old">R$ 200,00</span></div></div>
+            <div class="card-footer"><button class="btn-detail">Ver Detalhes</button></div>
+        </div>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+</main>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer>
+    &copy; 2024 Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal — Todos os direitos reservados
+</footer>
+
+<!-- ── FLOATING CART ────────────────────────────── -->
+<div class="cart-fab" onclick="window.location.href='carrinho.html'">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Carrinho &nbsp;<span id="cart-count">0</span>
+</div>
+
+<!-- ── MODAL ─────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+    <div class="modal">
+        <button class="modal-close-x" onclick="closeModal()">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="modal-img">
+            <img id="modal-image" src="" alt="">
+            <span class="placeholder" id="modal-placeholder">🍬</span>
+        </div>
+        <div class="modal-body">
+            <span class="m-label">Produto selecionado</span>
+            <h3 id="modal-title">—</h3>
+            <p class="m-price" id="modal-price">—</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-add" id="add-to-cart">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                Adicionar ao Carrinho
+            </button>
+            <button class="btn-close-modal" onclick="closeModal()">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ── TOAST ─────────────────────────────────────── -->
+<div class="toast" id="toast">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    Produto adicionado ao carrinho
+</div>
+
+<script>
+    /* ── Cart helpers ── */
+    const getCart = () => JSON.parse(localStorage.getItem('cart')) || [];
+    const saveCart = c => localStorage.setItem('cart', JSON.stringify(c));
+    const updateCount = () => {
+        const n = getCart().length;
+        document.querySelectorAll('#cart-count').forEach(el => el.textContent = n);
+    };
+
+    /* ── Mobile menu ── */
+    function toggleMenu() {
+        document.getElementById('mobile-menu').classList.toggle('open');
+    }
+
+    /* ── Modal ── */
+    let currentProduct = {};
+
+    function openModal(name, img, price, oldPrice) {
+        currentProduct = { name, price: parseFloat(price.replace('R$ ','').replace(',','.')), img };
+
+        document.getElementById('modal-title').textContent = name;
+        document.getElementById('modal-price').textContent = oldPrice
+            ? price + '  (era ' + oldPrice + ')'
+            : price;
+
+        const imgEl = document.getElementById('modal-image');
+        imgEl.src = img;
+        imgEl.alt = name;
+        imgEl.style.display = 'block';
+        imgEl.onerror = () => imgEl.style.display = 'none';
+
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function closeModalOutside(e) {
+        if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+
+    document.getElementById('add-to-cart').onclick = () => {
+        const cart = getCart();
+        cart.push(currentProduct);
+        saveCart(cart);
+        updateCount();
+        closeModal();
+        showToast();
+    };
+
+    function showToast() {
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    window.addEventListener('DOMContentLoaded', updateCount);
+</script>
+
+</body>
+</html>

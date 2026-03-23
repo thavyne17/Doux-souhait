@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Carrinho de Compras — Doux Souhait">
+    <title>Carrinho — Doux Souhait</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:      #c97b84;
+            --rose-dk:   #9e5560;
+            --cream:     #fdf6f0;
+            --parchment: #f5ebe2;
+            --text:      #3a2a2a;
+            --text-soft: #7a5f5f;
+            --gold:      #c4a882;
+            --gold-lt:   #e8d8c4;
+            --dark:      #1c1010;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── NAVBAR ──────────────────────────────────────────── */
+        .navbar {
+            background: rgba(28,16,16,.96);
+            border-bottom: 1px solid rgba(196,168,130,.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 58px;
+            flex-shrink: 0;
+        }
+        .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: 1.3rem;
+            color: #f5ebe2; text-decoration: none;
+        }
+        .navbar-brand em { font-style: italic; color: var(--rose); }
+        .navbar-back {
+            display: inline-flex; align-items: center; gap: .55rem;
+            font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+            color: rgba(245,235,226,.5); text-decoration: none;
+            transition: color .25s;
+        }
+        .navbar-back:hover { color: var(--gold-lt); }
+        .navbar-back svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── HEADER ─────────────────────────────────────────── */
+        header {
+            position: relative;
+            min-height: 26vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 3rem 2rem 2.2rem;
+            background-color: var(--dark);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        header::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,123,132,.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        header::after {
+            content: '';
+            position: absolute; inset: 1.2rem;
+            border: 1px solid rgba(196,168,130,.15);
+            pointer-events: none;
+        }
+        .brand-tag {
+            font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+            color: var(--gold); opacity: .7; margin-bottom: 1rem;
+            animation: fadeUp .7s ease both;
+        }
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: clamp(2rem, 6vw, 3.8rem);
+            line-height: 1; color: #f5ebe2;
+            animation: fadeUp .8s .1s ease both;
+        }
+        header h1 em { font-style: italic; color: var(--rose); }
+        .header-ornament {
+            margin-top: 1.4rem;
+            display: flex; align-items: center; gap: 1rem;
+            color: var(--gold); opacity: .4;
+            animation: fadeUp .8s .2s ease both;
+        }
+        .header-ornament::before, .header-ornament::after { content: ''; width: 40px; height: 1px; background: var(--gold); }
+
+        /* ── MAIN ────────────────────────────────────────────── */
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 3.5rem 2rem 5rem;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* ── EMPTY STATE ─────────────────────────────────────── */
+        .empty-state {
+            grid-column: 1 / -1;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 5rem 2rem;
+            gap: 1.2rem;
+        }
+        .empty-state .e-icon { font-size: 3rem; opacity: .2; }
+        .empty-state h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: 1.8rem; color: var(--text);
+        }
+        .empty-state p { font-size: .88rem; color: var(--text-soft); }
+        .btn-go-shop {
+            display: inline-flex; align-items: center; gap: .55rem;
+            margin-top: .5rem;
+            font-size: .7rem; letter-spacing: .22em; text-transform: uppercase;
+            color: var(--rose-dk); background: none;
+            border: 1px solid var(--rose); padding: .65rem 1.3rem;
+            border-radius: 2px; cursor: pointer; text-decoration: none;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-go-shop:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+        .btn-go-shop svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── ITEMS PANEL ─────────────────────────────────────── */
+        .items-panel { display: flex; flex-direction: column; gap: 0; }
+
+        .panel-title {
+            display: flex; align-items: baseline; gap: .8rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gold-lt);
+            margin-bottom: 0;
+        }
+        .panel-title h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400; font-size: 1.5rem; color: var(--text);
+        }
+        .panel-title .count {
+            font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+            color: var(--text-soft); opacity: .6;
+        }
+
+        /* ── CART ITEM ───────────────────────────────────────── */
+        .cart-item {
+            display: flex; align-items: center; gap: 1.4rem;
+            padding: 1.4rem 0;
+            border-bottom: 1px solid var(--gold-lt);
+            animation: fadeUp .4s ease both;
+        }
+        .cart-item:last-child { border-bottom: none; }
+
+        .item-img {
+            width: 72px; height: 72px; flex-shrink: 0;
+            border: 1px solid var(--gold-lt);
+            background: var(--parchment);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .item-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .item-img .ph { font-size: 1.8rem; opacity: .2; }
+
+        .item-info { flex: 1; }
+        .item-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400; font-size: 1.2rem; color: var(--text);
+            line-height: 1.2; margin-bottom: .2rem;
+        }
+        .item-info .item-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem; color: var(--rose-dk);
+        }
+
+        .btn-remove {
+            display: flex; align-items: center; justify-content: center;
+            width: 34px; height: 34px; flex-shrink: 0;
+            background: none; border: 1px solid var(--gold-lt);
+            color: var(--text-soft); cursor: pointer; border-radius: 2px;
+            transition: background .3s, border-color .3s, color .3s;
+        }
+        .btn-remove:hover { background: var(--rose-dk); border-color: var(--rose-dk); color: #fff; }
+        .btn-remove svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+        /* ── SIDEBAR SUMMARY ─────────────────────────────────── */
+        .sidebar { position: sticky; top: 1.5rem; }
+
+        .summary-panel {
+            background: var(--dark);
+            border: 1px solid rgba(196,168,130,.18);
+            padding: 2rem;
+        }
+        .s-label {
+            font-size: .62rem; letter-spacing: .32em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.4rem; display: block; opacity: .75;
+        }
+        .summary-lines { display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.2rem; }
+        .summary-line {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-size: .82rem; color: rgba(245,235,226,.45);
+        }
+        .summary-line .s-val {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem; color: var(--gold-lt);
+        }
+        .summary-divider { height: 1px; background: rgba(196,168,130,.12); margin: .8rem 0 1.2rem; }
+        .summary-total {
+            display: flex; justify-content: space-between; align-items: baseline;
+        }
+        .t-label {
+            font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--gold); opacity: .7;
+        }
+        .t-val {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem; color: #f5ebe2;
+        }
+
+        /* checkout button */
+        .btn-checkout {
+            display: flex; align-items: center; justify-content: center; gap: .6rem;
+            width: 100%; margin-top: 1.6rem;
+            padding: .85rem;
+            background: transparent; border: 1px solid var(--rose);
+            color: var(--rose);
+            font-family: 'Jost', sans-serif;
+            font-size: .7rem; font-weight: 300;
+            letter-spacing: .25em; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px; text-decoration: none;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-checkout:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+        .btn-checkout svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; }
+        .btn-checkout:hover svg { transform: translateX(3px); }
+
+        /* clear cart */
+        .btn-clear {
+            display: block; width: 100%; margin-top: .8rem;
+            font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+            color: rgba(196,168,130,.35); background: none; border: none;
+            cursor: pointer; text-align: center; padding: .4rem;
+            transition: color .3s;
+        }
+        .btn-clear:hover { color: var(--rose); }
+
+        /* ── SUCCESS MODAL ───────────────────────────────────── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(28,16,16,.75);
+            backdrop-filter: blur(10px);
+            z-index: 200;
+            align-items: center; justify-content: center;
+            padding: 1.5rem;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--cream); max-width: 460px; width: 100%;
+            border: 1px solid var(--gold-lt);
+            padding: 0;
+            position: relative; text-align: center;
+            animation: fadeUp .4s ease;
+            overflow: hidden;
+        }
+        .modal-top {
+            background: var(--dark);
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+        }
+        .modal-top::before {
+            content: '';
+            position: absolute; inset: .8rem;
+            border: 1px solid rgba(196,168,130,.15);
+            pointer-events: none;
+        }
+        .modal-check {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: rgba(201,123,132,.15);
+            border: 1px solid rgba(201,123,132,.4);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.2rem;
+        }
+        .modal-check svg { width: 22px; height: 22px; stroke: var(--rose); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .modal-top h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300; font-size: 2rem;
+            color: #f5ebe2; line-height: 1; margin-bottom: .4rem;
+        }
+        .modal-top h3 em { font-style: italic; color: var(--rose); }
+        .modal-top .m-sub {
+            font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+            color: var(--gold); opacity: .55;
+        }
+        .modal-body { padding: 2rem 2rem 2.2rem; }
+        .modal-body p { font-size: .9rem; color: var(--text-soft); line-height: 1.85; margin-bottom: 1.8rem; }
+        .btn-modal-ok {
+            display: inline-flex; align-items: center; gap: .55rem;
+            font-family: 'Jost', sans-serif; font-size: .7rem;
+            letter-spacing: .22em; text-transform: uppercase;
+            color: var(--rose-dk); background: none;
+            border: 1px solid var(--rose); padding: .7rem 1.8rem;
+            border-radius: 2px; cursor: pointer; text-decoration: none;
+            transition: background .3s, color .3s, border-color .3s;
+        }
+        .btn-modal-ok:hover { background: var(--rose-dk); color: #fff; border-color: var(--rose-dk); }
+        .btn-modal-ok svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── FOOTER ──────────────────────────────────────────── */
+        footer {
+            background: var(--dark); padding: 1.4rem 2rem;
+            text-align: center; font-size: .68rem;
+            letter-spacing: .12em; color: rgba(196,168,130,.3);
+            text-transform: uppercase; flex-shrink: 0;
+        }
+
+        /* ── ANIMATIONS ──────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────────── */
+        @media (max-width: 700px) {
+            main { grid-template-columns: 1fr; padding: 2.5rem 1.2rem 4rem; }
+            .sidebar { position: static; }
+            header::after { inset: .8rem; }
+        }
+        @media (max-width: 420px) {
+            .navbar { padding: 0 1.2rem; }
+            .item-img { width: 56px; height: 56px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────── -->
+<nav class="navbar">
+    <a href="index.html" class="navbar-brand">Doux <em>Souhait</em></a>
+    <a href="index.html" class="navbar-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Continuar comprando
+    </a>
+</nav>
+
+<!-- ── HEADER ──────────────────────────────────── -->
+<header>
+    <p class="brand-tag">Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal</p>
+    <h1>Meu <em>Carrinho</em></h1>
+    <div class="header-ornament"><span>✦</span></div>
+</header>
+
+<!-- ── MAIN ────────────────────────────────────── -->
+<main id="main-layout">
+
+    <!-- filled by JS -->
+
+</main>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer>
+    &copy; 2024 Doux Souhait &nbsp;·&nbsp; Confeitaria Artesanal
+</footer>
+
+<!-- ── SUCCESS MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+        <div class="modal-top">
+            <div class="modal-check">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Compra <em>Confirmada!</em></h3>
+            <p class="m-sub">Pedido realizado com sucesso</p>
+        </div>
+        <div class="modal-body">
+            <p>Obrigado pela sua compra na Doux Souhait! Em breve você receberá uma confirmação com os detalhes do seu pedido e prazo de entrega.</p>
+            <a href="index.html" class="btn-modal-ok">
+                Voltar ao início
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const getCart  = () => JSON.parse(localStorage.getItem('cart')) || [];
+    const saveCart = c  => localStorage.setItem('cart', JSON.stringify(c));
+    const fmt      = v  => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+
+    const calcTotal = () => getCart().reduce((t, i) => t + (i.price || 0), 0);
+
+    /* ── Remove item ── */
+    const removeFromCart = index => {
+        const cart = getCart();
+        cart.splice(index, 1);
+        saveCart(cart);
+        render();
+    };
+
+    /* ── Clear cart ── */
+    const clearCart = () => { saveCart([]); render(); };
+
+    /* ── Render ── */
+    const render = () => {
+        const main = document.getElementById('main-layout');
+        const cart = getCart();
+
+        if (!cart.length) {
+            main.innerHTML = `
+                <div class="empty-state">
+                    <div class="e-icon">🛒</div>
+                    <h2>Seu carrinho está vazio</h2>
+                    <p>Adicione produtos para começar a sua compra.</p>
+                    <a href="index.html" class="btn-go-shop">
+                        Ver produtos
+                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                </div>`;
+            return;
+        }
+
+        const itemsHTML = cart.map((item, i) => `
+            <div class="cart-item" style="animation-delay:${i * .06}s">
+                <div class="item-img">
+                    <img src="${item.img || item.image || ''}" alt="${item.name}"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                    <span class="ph" style="display:none">🍬</span>
+                </div>
+                <div class="item-info">
+                    <h3>${item.name}</h3>
+                    <span class="item-price">${fmt(item.price || 0)}</span>
+                </div>
+                <button class="btn-remove" onclick="removeFromCart(${i})" title="Remover">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>`).join('');
+
+        main.innerHTML = `
+            <div class="items-panel">
+                <div class="panel-title">
+                    <h2>Itens</h2>
+                    <span class="count">${cart.length} ${cart.length === 1 ? 'produto' : 'produtos'}</span>
+                </div>
+                ${itemsHTML}
+            </div>
+
+            <div class="sidebar">
+                <div class="summary-panel">
+                    <span class="s-label">Resumo</span>
+                    <div class="summary-lines">
+                        <div class="summary-line">
+                            <span>${cart.length} ${cart.length === 1 ? 'item' : 'itens'}</span>
+                            <span class="s-val">${fmt(calcTotal())}</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Frete</span>
+                            <span class="s-val" style="font-size:.8rem;opacity:.5;color:rgba(245,235,226,.4)">Calc. no checkout</span>
+                        </div>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-total">
+                        <span class="t-label">Subtotal</span>
+                        <span class="t-val">${fmt(calcTotal())}</span>
+                    </div>
+                    <a href="checkout (1).html" class="btn-checkout">
+                        Finalizar Compra
+                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                    <button class="btn-clear" onclick="clearCart()">Esvaziar carrinho</button>
+                </div>
+            </div>`;
+    };
+
+    /* ── Success modal (called from checkout redirect with ?success=1) ── */
+    if (new URLSearchParams(window.location.search).get('success') === '1') {
+        saveCart([]);
+        document.getElementById('modal-overlay').classList.add('open');
+    }
+
+    window.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>
